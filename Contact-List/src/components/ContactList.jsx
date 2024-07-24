@@ -1,35 +1,32 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import ContactRow from "./ContactRow.jsx"; // Import ContactRow component
 
 const dummyContacts = [
-    { id: 1, name: "R2-D2", phone: "222-222-2222", email: "r2d2@droids.com" },
-    { id: 2, name: "C-3PO", phone: "333-333-3333", email: "c3po@droids.com" },
-    { id: 3, name: "BB-8", phone: "888-888-8888", email: "bb8@droids.com" },
-  ];
-  
+  { id: 1, name: "R2-D2", phone: "222-222-2222", email: "r2d2@droids.com" },
+  { id: 2, name: "C-3PO", phone: "333-333-3333", email: "c3po@droids.com" },
+  { id: 3, name: "BB-8", phone: "888-888-8888", email: "bb8@droids.com" },
+];
 
 export default function ContactList() {
-    const [contacts, setContacts] = useState(dummyContacts);
+  const [contacts, setContacts] = useState(dummyContacts);
 
-
-    useEffect(() => {
-        async function fetchContacts() {
-          try {
-            const response = await fetch('https://jsonplaceholder.typicode.com/users');
-            const data = await response.json();
-            const formattedContacts = data.map(user => ({
-              id: user.id,
-              name: user.name,
-              email: user.email,
-              phone: user.phone,
-            }));
-            setContacts(formattedContacts);
-          } catch (error) {
-            console.error('Error fetching data:', error);
-          }
+  useEffect(() => {
+    async function fetchContacts() {
+      try {
+        const response = await fetch("/api/users");
+        if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.statusText}`);
         }
-        fetchContacts();
-      }, []); 
+        const result = await response.json();
+        console.log(result); // Log the response to ensure we get the correct data
+        setContacts(result);
+      } catch (error) {
+        console.error("Error fetching data:", error.message);
+      }
+    }
+    fetchContacts();
+  }, []);
+  console.log("Contacts state:", contacts);
 
   return (
     <table>
