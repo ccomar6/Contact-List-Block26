@@ -1,7 +1,7 @@
 [build]
   command = "npm install --force && npm run build"
-  publish = "dist"
-  base = "."
+  publish = "Contact-List/dist"
+  base = "Contact-List"
 
 [[redirects]]
   from = "/*"
