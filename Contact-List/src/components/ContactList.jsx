@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import ContactRow from './ContactRow.jsx'; // Import ContactRow component
-import PropTypes from 'prop-types';
-
-ContactList.propTypes = {
-  setSelectedContactId: PropTypes.func.isRequired,
-};
+import ContactRow from './ContactRow.jsx';
 
 const dummyContacts = [
-  { id: 1, name: "R2-D2", phone: "222-222-2222", email: "r2d2@droids.com" },
-  { id: 2, name: "C-3PO", phone: "333-333-3333", email: "c3po@droids.com" },
-  { id: 3, name: "BB-8", phone: "888-888-8888", email: "bb8@droids.com" },
+  { id: 1, name: 'R2-D2', phone: '222-222-2222', email: 'r2d2@droids.com' },
+  { id: 2, name: 'C-3PO', phone: '333-333-3333', email: 'c3po@droids.com' },
+  { id: 3, name: 'BB-8', phone: '888-888-8888', email: 'bb8@droids.com' },
 ];
 
 export default function ContactList({ setSelectedContactId }) {
@@ -18,14 +13,14 @@ export default function ContactList({ setSelectedContactId }) {
   useEffect(() => {
     async function fetchContacts() {
       try {
+        console.log('Fetching contacts');
         const response = await fetch('/api/users');
+        console.log(`Response status: ${response.status}`);
         if (!response.ok) {
-          throw new Error(
-            `Network response was not ok: ${response.statusText}`
-          );
+          throw new Error(`Network response was not ok: ${response.statusText}`);
         }
         const result = await response.json();
-        console.log(result); // Log the response to ensure we get the correct data
+        console.log('Fetched contacts:', result);
         setContacts(result);
       } catch (error) {
         console.error('Error fetching data:', error.message);
@@ -52,7 +47,7 @@ export default function ContactList({ setSelectedContactId }) {
             key={contact.id}
             contact={contact}
             setSelectedContactId={setSelectedContactId} // Pass down setSelectedContactId
-            />
+          />
         ))}
       </tbody>
     </table>
