@@ -1,6 +1,7 @@
 [build]
   command = "npm run build"
-  publish = "dist"
+  publish = "Contact-List/dist"
+  base = "Contact-List"
 
 [[redirects]]
   from = "/*"
