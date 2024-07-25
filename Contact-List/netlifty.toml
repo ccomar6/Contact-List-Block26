@@ -1,0 +1,9 @@
+[build]
+  command = "npm install --force --legacy-peer-deps && npm run build"
+  publish = "Contact-List/dist"
+  base = "Contact-List"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
