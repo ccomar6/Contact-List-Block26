@@ -1,5 +1,10 @@
-import React, { useState, useEffect } from "react";
-import ContactRow from "./ContactRow.jsx"; // Import ContactRow component
+import React, { useState, useEffect } from 'react';
+import ContactRow from './ContactRow.jsx'; // Import ContactRow component
+import PropTypes from 'prop-types';
+
+ContactList.propTypes = {
+  setSelectedContactId: PropTypes.func.isRequired,
+};
 
 const dummyContacts = [
   { id: 1, name: "R2-D2", phone: "222-222-2222", email: "r2d2@droids.com" },
@@ -7,26 +12,27 @@ const dummyContacts = [
   { id: 3, name: "BB-8", phone: "888-888-8888", email: "bb8@droids.com" },
 ];
 
-export default function ContactList() {
+export default function ContactList({ setSelectedContactId }) {
   const [contacts, setContacts] = useState(dummyContacts);
 
   useEffect(() => {
     async function fetchContacts() {
       try {
-        const response = await fetch("/api/users");
+        const response = await fetch('/api/users');
         if (!response.ok) {
-            throw new Error(`Network response was not ok: ${response.statusText}`);
+          throw new Error(
+            `Network response was not ok: ${response.statusText}`
+          );
         }
         const result = await response.json();
         console.log(result); // Log the response to ensure we get the correct data
         setContacts(result);
       } catch (error) {
-        console.error("Error fetching data:", error.message);
+        console.error('Error fetching data:', error.message);
       }
     }
     fetchContacts();
   }, []);
-  console.log("Contacts state:", contacts);
 
   return (
     <table>
@@ -42,7 +48,11 @@ export default function ContactList() {
           <td>Phone</td>
         </tr>
         {contacts.map((contact) => (
-          <ContactRow key={contact.id} contact={contact} /> // Use ContactRow component
+          <ContactRow
+            key={contact.id}
+            contact={contact}
+            setSelectedContactId={setSelectedContactId} // Pass down setSelectedContactId
+            />
         ))}
       </tbody>
     </table>
